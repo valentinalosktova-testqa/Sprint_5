@@ -15,3 +15,4 @@ class StellarLocators:
 
     #сообщение об ошибке
     PASSWORD_ERROR = (By.XPATH, ".//p[text()='Некорректный пароль']")
+    
