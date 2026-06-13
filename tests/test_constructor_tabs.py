@@ -21,3 +21,4 @@ def test_constructor_tabs(tab_name):
     assert active_tab.is_displayed()
 
     driver.quit()
+    

@@ -40,3 +40,4 @@ def test_personal_account_authorized():
     assert "account" in driver.current_url
 
     driver.quit()
+    

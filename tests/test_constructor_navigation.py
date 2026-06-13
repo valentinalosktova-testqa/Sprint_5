@@ -65,3 +65,4 @@ def test_go_to_constructor_via_constructor_button():
     assert driver.current_url == "https://stellarburgers.education-services.ru/"
 
     driver.quit()
+    

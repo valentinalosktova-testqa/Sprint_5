@@ -35,3 +35,4 @@ def test_logout():
     assert "login" in driver.current_url
 
     driver.quit()
+    

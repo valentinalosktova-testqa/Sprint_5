@@ -55,4 +55,5 @@ def test_login_via_password_recovery_form():
     assert "login" in driver.current_url
 
     driver.quit()
+    
 
