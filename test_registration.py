@@ -46,3 +46,4 @@ def test_registration_short_password_error():
     assert error.is_displayed()
 
     driver.quit()
+    # test updated for PR
