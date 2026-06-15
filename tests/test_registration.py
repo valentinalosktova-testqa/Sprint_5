@@ -4,11 +4,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from helpers import generate_unique_email
 from pages.locators import StellarLocators
+from urls import BASE_URL
+
 
 class TestRegistration:
 
     def test_registration_success(self, driver):
-        driver.get('https://stellarburgers.education-services.ru/')
+        driver.get(BASE_URL)
         driver.find_element(By.LINK_TEXT, "Личный Кабинет").click()
         driver.find_element(By.LINK_TEXT, "Зарегистрироваться").click()
         email = generate_unique_email()
@@ -24,7 +26,7 @@ class TestRegistration:
         assert "login" in driver.current_url
 
     def test_registration_short_password_error(self, driver):
-        driver.get('https://stellarburgers.education-services.ru/')
+        driver.get(BASE_URL)
         driver.find_element(By.LINK_TEXT, "Личный Кабинет").click()
         driver.find_element(By.LINK_TEXT, "Зарегистрироваться").click()
 

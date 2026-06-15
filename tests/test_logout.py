@@ -3,12 +3,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from helpers import generate_unique_email
 from pages.locators import StellarLocators
+from urls import BASE_URL
+
 
 class TestLogout:
 
     def test_logout(self, driver):
-        driver.get('https://stellarburgers.education-services.ru/')
-
+        driver.get(BASE_URL)
         # Регистрация нового пользователя
         driver.find_element(By.LINK_TEXT, "Личный Кабинет").click()
         driver.find_element(By.LINK_TEXT, "Зарегистрироваться").click()

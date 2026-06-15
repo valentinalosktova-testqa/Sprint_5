@@ -4,11 +4,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pages.locators import StellarLocators
 from helpers import generate_unique_email
+from urls import BASE_URL
 
 class TestConstructorNavigation:
 
     def test_go_to_constructor_via_logo(self, driver):
-        driver.get('https://stellarburgers.education-services.ru/')
+        driver.get(BASE_URL)
 
         # Клик по ссылке "Личный Кабинет"
         driver.find_element(By.LINK_TEXT, "Личный Кабинет").click()
@@ -40,7 +41,7 @@ class TestConstructorNavigation:
         assert driver.current_url == "https://stellarburgers.education-services.ru/"
 
     def test_go_to_constructor_via_constructor_button(self, driver):
-        driver.get('https://stellarburgers.education-services.ru/')
+        driver.get(BASE_URL)
 
         # Авторизация (копируем ту же логику, что в первом тесте)
         driver.find_element(By.LINK_TEXT, "Личный Кабинет").click()

@@ -33,4 +33,7 @@ class StellarLocators:
 
     # Ссылка на логотип (кликабельная область, ведущая на главную)
     LOGO_LINK = (By.XPATH, "//div[contains(@class, 'AppHeader_header__logo')]/a")
+
+    # Ссылка "Войти" на формах (регистрация, восстановление)
+    LOGIN_LINK_ON_FORM = (By.LINK_TEXT, "Войти")
     
