@@ -4,8 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from helpers import generate_unique_email
 
-def test_go_to_constructor_via_logo():
-    driver = webdriver.Chrome()
+def test_go_to_constructor_via_logo(driver):
     driver.get('https://stellarburgers.education-services.ru/')
 
     # Клик по ссылке "Личный Кабинет"
@@ -37,10 +36,8 @@ def test_go_to_constructor_via_logo():
     # Проверить, что мы на главной (URL не содержит account)
     assert driver.current_url == "https://stellarburgers.education-services.ru/"
 
-    driver.quit()
 
-def test_go_to_constructor_via_constructor_button():
-    driver = webdriver.Chrome()
+def test_go_to_constructor_via_constructor_button(driver):
     driver.get('https://stellarburgers.education-services.ru/')
 
     # Авторизация (копируем ту же логику, что в первом тесте)
@@ -64,5 +61,3 @@ def test_go_to_constructor_via_constructor_button():
     # Проверяем, что мы на главной странице
     assert driver.current_url == "https://stellarburgers.education-services.ru/"
 
-    driver.quit()
-    
