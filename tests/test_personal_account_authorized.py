@@ -4,8 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from helpers import generate_unique_email
 
-def test_personal_account_authorized():
-    driver = webdriver.Chrome()
+def test_personal_account_authorized(driver):
     driver.get('https://stellarburgers.education-services.ru/')
 
     # Клик по ссылке "Личный Кабинет"
@@ -37,7 +36,4 @@ def test_personal_account_authorized():
 
     # Проверяем, что открылась страница /account
     wait.until(EC.url_contains("account"))
-    assert "account" in driver.current_url
-
-    driver.quit()
-    
+    assert "account" in driver.current_url  
