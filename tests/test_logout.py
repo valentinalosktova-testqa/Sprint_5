@@ -1,35 +1,41 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from helpers import generate_unique_email
+from pages.locators import StellarLocators
 
-def test_logout(driver):
-    driver.get('https://stellarburgers.education-services.ru/')
+class TestLogout:
 
-    driver.find_element(By.LINK_TEXT, "Личный Кабинет").click()
-    driver.find_element(By.LINK_TEXT, "Зарегистрироваться").click()
+    def test_logout(self, driver):
+        driver.get('https://stellarburgers.education-services.ru/')
 
-    email = generate_unique_email()
+        # Регистрация нового пользователя
+        driver.find_element(By.LINK_TEXT, "Личный Кабинет").click()
+        driver.find_element(By.LINK_TEXT, "Зарегистрироваться").click()
 
-    driver.find_element(By.XPATH, ".//label[text()='Имя']/following-sibling::input").send_keys("Валентина")
-    driver.find_element(By.XPATH, ".//label[text()='Email']/following-sibling::input").send_keys(email)
-    driver.find_element(By.XPATH, ".//label[text()='Пароль']/following-sibling::input").send_keys("123456")
-    driver.find_element(By.XPATH, ".//button[text()='Зарегистрироваться']").click()
+        email = generate_unique_email()
+        driver.find_element(*StellarLocators.NAME_INPUT).send_keys("Валентина")
+        driver.find_element(*StellarLocators.EMAIL_INPUT).send_keys(email)
+        driver.find_element(*StellarLocators.PASSWORD_INPUT).send_keys("123456")
+        driver.find_element(*StellarLocators.REGISTER_BUTTON).click()
 
-    wait = WebDriverWait(driver, 3)
-    wait.until(EC.url_contains("login"))
-    assert "login" in driver.current_url
+        wait = WebDriverWait(driver, 3)
+        wait.until(EC.url_contains("login"))
+        assert "login" in driver.current_url
 
-    driver.find_element(By.XPATH, ".//label[text()='Email']/following-sibling::input").send_keys(email)
-    driver.find_element(By.XPATH, ".//label[text()='Пароль']/following-sibling::input").send_keys("123456")
-    driver.find_element(By.XPATH, ".//button[text()='Войти']").click()
+        # Вход как зарегистрированный пользователь
+        driver.find_element(*StellarLocators.EMAIL_INPUT).send_keys(email)
+        driver.find_element(*StellarLocators.PASSWORD_INPUT).send_keys("123456")
+        driver.find_element(*StellarLocators.LOGIN_BUTTON).click()
 
-    driver.find_element(By.LINK_TEXT, "Личный Кабинет").click()
+        # Переход в личный кабинет
+        driver.find_element(By.LINK_TEXT, "Личный Кабинет").click()
 
-    # Ждём и кликаем по кнопке «Выход»
-    wait.until(EC.element_to_be_clickable((By.XPATH, ".//button[text()='Выход']"))).click()
+        # Клик по кнопке «Выйти» с явным ожиданием
+        wait = WebDriverWait(driver, 5)
+        logout_button = wait.until(EC.element_to_be_clickable((By.XPATH, ".//button[text()='Выход']")))
+        logout_button.click()
 
-    wait.until(EC.url_contains("login"))
-    assert "login" in driver.current_url
-    
+        # Проверяем, что открылась страница /login
+        wait.until(EC.url_contains("login"))
+        assert "login" in driver.current_url
