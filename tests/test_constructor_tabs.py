@@ -5,8 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 @pytest.mark.parametrize("tab_name", ["Булки", "Соусы", "Начинки"])
-def test_constructor_tabs(tab_name):
-    driver = webdriver.Chrome()
+def test_constructor_tabs(driver, tab_name):
     driver.get('https://stellarburgers.education-services.ru/')
 
     # Поиск вкладки и клик через JavaScript
@@ -18,7 +17,4 @@ def test_constructor_tabs(tab_name):
     active_tab = wait.until(EC.visibility_of_element_located(
         (By.XPATH, f".//div[contains(@class, 'tab_tab_type_current')]//span[text()='{tab_name}']")
     ))
-    assert active_tab.is_displayed()
-
-    driver.quit()
-    
+    assert active_tab.is_displayed()  
