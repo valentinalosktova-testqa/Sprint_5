@@ -3,43 +3,38 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from helpers import generate_unique_email
+from pages.locators import StellarLocators
 
-def test_registration_success(driver):
-    driver.get('https://stellarburgers.education-services.ru/')
+class TestRegistration:
 
-    # Клик по ссылке "Личный Кабинет"
-    driver.find_element(By.LINK_TEXT, "Личный Кабинет").click()
+    def test_registration_success(self, driver):
+        driver.get('https://stellarburgers.education-services.ru/')
+        driver.find_element(By.LINK_TEXT, "Личный Кабинет").click()
+        driver.find_element(By.LINK_TEXT, "Зарегистрироваться").click()
+        email = generate_unique_email()
 
-    # На странице логина клик по ссылке "Зарегистрироваться"
-    driver.find_element(By.LINK_TEXT, "Зарегистрироваться").click()
+        driver.find_element(*StellarLocators.NAME_INPUT).send_keys("Валентина")
+        driver.find_element(*StellarLocators.EMAIL_INPUT).send_keys(email)
+        driver.find_element(*StellarLocators.PASSWORD_INPUT).send_keys("123456")
 
-    # Генерация уникального email
-    email = generate_unique_email()
+        driver.find_element(*StellarLocators.REGISTER_BUTTON).click()
 
-    driver.find_element(By.XPATH, ".//label[text()='Имя']/following-sibling::input").send_keys("Валентина")
-    driver.find_element(By.XPATH, ".//label[text()='Email']/following-sibling::input").send_keys(email)
-    driver.find_element(By.XPATH, ".//label[text()='Пароль']/following-sibling::input").send_keys("123456")
+        wait = WebDriverWait(driver, 3)
+        wait.until(EC.url_contains("login"))
+        assert "login" in driver.current_url
 
-    driver.find_element(By.XPATH, ".//button[text()='Зарегистрироваться']").click()
+    def test_registration_short_password_error(self, driver):
+        driver.get('https://stellarburgers.education-services.ru/')
+        driver.find_element(By.LINK_TEXT, "Личный Кабинет").click()
+        driver.find_element(By.LINK_TEXT, "Зарегистрироваться").click()
 
-    wait = WebDriverWait(driver, 3)
-    wait.until(EC.url_contains("login"))
-    assert "login" in driver.current_url
+        driver.find_element(*StellarLocators.NAME_INPUT).send_keys("Валентина")
+        driver.find_element(*StellarLocators.EMAIL_INPUT).send_keys("test@ya.ru")
+        driver.find_element(*StellarLocators.PASSWORD_INPUT).send_keys("123")
 
+        driver.find_element(*StellarLocators.REGISTER_BUTTON).click()
 
-def test_registration_short_password_error(driver):
-    driver.get('https://stellarburgers.education-services.ru/')
-
-    driver.find_element(By.LINK_TEXT, "Личный Кабинет").click()
-    driver.find_element(By.LINK_TEXT, "Зарегистрироваться").click()
-
-    driver.find_element(By.XPATH, ".//label[text()='Имя']/following-sibling::input").send_keys("Валентина")
-    driver.find_element(By.XPATH, ".//label[text()='Email']/following-sibling::input").send_keys("test@ya.ru")
-    driver.find_element(By.XPATH, ".//label[text()='Пароль']/following-sibling::input").send_keys("123")
-
-    driver.find_element(By.XPATH, ".//button[text()='Зарегистрироваться']").click()
-
-    error = driver.find_element(By.XPATH, ".//p[text()='Некорректный пароль']")
-    assert error.is_displayed()
+        error = driver.find_element(*StellarLocators.PASSWORD_ERROR)
+        assert error.is_displayed()
 
     
