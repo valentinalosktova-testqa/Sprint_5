@@ -4,8 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from helpers import generate_unique_email
 
-def test_registration_success():
-    driver = webdriver.Chrome()
+def test_registration_success(driver):
     driver.get('https://stellarburgers.education-services.ru/')
 
     # Клик по ссылке "Личный Кабинет"
@@ -27,10 +26,8 @@ def test_registration_success():
     wait.until(EC.url_contains("login"))
     assert "login" in driver.current_url
 
-    driver.quit()
 
-def test_registration_short_password_error():
-    driver = webdriver.Chrome()
+def test_registration_short_password_error(driver):
     driver.get('https://stellarburgers.education-services.ru/')
 
     driver.find_element(By.LINK_TEXT, "Личный Кабинет").click()
@@ -45,5 +42,4 @@ def test_registration_short_password_error():
     error = driver.find_element(By.XPATH, ".//p[text()='Некорректный пароль']")
     assert error.is_displayed()
 
-    driver.quit()
     
